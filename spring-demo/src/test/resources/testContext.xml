@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- copy boilerplate from https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/beans.html -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!-- overriding -->
+<import resource="classpath:applicationContext.xml"/>
+
+	<!-- Why we did the override? suppose we don't need a few beans, we need 
+		to component scan only specific packages. eg: old component-scan: <context:component-scan 
+		base-package="com.example.demo, com.example.componentscan" /> and now we 
+		don't need the com.example.componentscan package fot test purposes so we 
+		can override them -->
+	<context:component-scan
+		base-package="com.example.demo" />
+
+
+
+
+	<!-- for class attribute: go to the class file -> select class name -> right 
+		click and select "copy qualified name" -->
+
+	<!-- for id attribute: name as you wish -->
+	<bean id="xmlDbConnection"
+		class="com.example.demo.xml.XmlDBConnection">
+		<!-- collaborators and configuration for this bean go here -->
+	</bean>
+
+	<bean id="xmlPersonDao" class="com.example.demo.xml.XmlPersonDAO">
+		<!-- autowiring xmlDbConnection tag: property attributes: name: *IMPORTANT* 
+			same as the dependency member ref: ID of the dependency bean -->
+		<property name="dbConnection" ref="xmlDbConnection" />
+	</bean>
+
+
+
+
+</beans>

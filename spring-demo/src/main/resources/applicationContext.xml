@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- copy boilerplate from https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/beans.html -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<!-- to do a componentscan we'll need a context schema. by default the beans 
+		schema is presents. we'll create the context schema step 1) add attribute 
+		xmlns:context in <bean/> where context is the namespace xmlns:context="http://www.springframework.org/schema/context" 
+		step 2) add 2 more fields in xsi:schemaLocation attribute http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd -->
+
+	<context:component-scan
+		base-package="com.example.demo, com.example.componentscan" />
+
+
+
+
+	<!-- for class attribute: go to the class file -> select class name -> right 
+		click and select "copy qualified name" -->
+
+	<!-- for id attribute: name as you wish -->
+	<bean id="xmlDbConnection"
+		class="com.example.demo.xml.XmlDBConnection">
+		<!-- collaborators and configuration for this bean go here -->
+	</bean>
+
+	<bean id="xmlPersonDao" class="com.example.demo.xml.XmlPersonDAO">
+		<!-- autowiring xmlDbConnection tag: property attributes: name: *IMPORTANT* 
+			same as the dependency member ref: ID of the dependency bean -->
+		<property name="dbConnection" ref="xmlDbConnection" />
+	</bean>
+
+
+
+
+</beans>
