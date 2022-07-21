@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	step 1: adding the spring-mvc dependency in pom.xml 
+	step 2: adding dispatcher servlet to the web.xml file. 
+	step 3: this step: adding component-scan, so 
+	that the dispatcher servlet can search for @controller @service annotations and make beans. 
+	step 4: creating controllers. see: demo.springmvc.LoginController 
+	
+	
+	
+	DispatcherServlet needs an Spring Application Context to launch. this is the location of the configuration 
+	for the Spring Application Context of the dispatcher servlet. basically the 
+	/WEB-INF/todo-servlet.xml file allows spring to get hold of all the beans 
+	by doing component scan. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan
+		base-package="demo" />
+
+	<!-- view resolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 
+			using a specific view resolver org.springframework.web.servlet.view.InternalResourceViewResolver
+			with 2 properties. 
+			which basically means. If we return a string from a controller function
+			which doesn't have a @ResponseBody annotation.
+			then add "/WEB-INF/views/" as a prefix to the string
+			and add ".jsp" as the suffix
+		 -->
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<mvc:annotation-driven />
+
+</beans>
